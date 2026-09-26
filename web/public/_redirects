@@ -1,3 +1,12 @@
 # Single-page app: serve index.html for client-side routes like /admin or /courses.
 # /api is routed to the API service by the platform before it reaches static hosting.
-/*    /index.html   200
+# Links that end with a slash (/courses/) are listed too, so they never show "not found".
+/courses/     /index.html   200
+/jobs/        /index.html   200
+/services/    /index.html   200
+/students/    /index.html   200
+/about/       /index.html   200
+/contact/     /index.html   200
+/apply/       /index.html   200
+/admin/       /index.html   200
+/*            /index.html   200
