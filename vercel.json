@@ -1,0 +1,16 @@
+{
+  "framework": "vite",
+  "installCommand": "cd web && npm install --include=dev --no-audit --no-fund",
+  "buildCommand": "cd web && npm run build",
+  "outputDirectory": "web/dist",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://subhanconsolestudio2-api.mythex.ai/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
