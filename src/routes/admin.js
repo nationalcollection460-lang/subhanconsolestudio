@@ -333,7 +333,7 @@ function sanitize(def, body = {}) {
         ? raw
         : String(raw || '')
             .split('\n')
-            .map((v) => v.replace(/^[-\u2022*\s]+/, '').trim());
+            .map((v) => v.replace(/^[•-*\s]+/, '').trim());
       values[field] = JSON.stringify(list.filter(Boolean));
     } else if (def.ints.includes(field)) {
       const num = Number(raw);
