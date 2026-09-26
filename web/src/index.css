@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-ink-950 font-sans text-slate-200 antialiased;
+    background-image:
+      radial-gradient(1100px 600px at 12% -10%, rgba(34, 211, 238, 0.14), transparent 60%),
+      radial-gradient(900px 500px at 88% 0%, rgba(139, 92, 246, 0.16), transparent 62%),
+      radial-gradient(800px 700px at 50% 110%, rgba(63, 92, 242, 0.14), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-white;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: rgba(34, 211, 238, 0.35);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #080b1a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #22d3ee55, #8b5cf655);
+    border-radius: 999px;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .glass {
+    @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  }
+
+  .card {
+    @apply glass rounded-3xl shadow-card transition duration-300;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.07];
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition duration-200 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-cyan-400 via-brand-500 to-neon-violet text-white shadow-[0_18px_40px_-18px_rgba(63,92,242,0.9)] hover:brightness-110 active:scale-[0.98];
+  }
+
+  .btn-whatsapp {
+    @apply btn bg-[#25D366] text-[#052e16] hover:bg-[#1fbe5b] active:scale-[0.98];
+  }
+
+  .btn-outline {
+    @apply btn border border-white/[0.15] bg-white/[0.04] text-white hover:border-white/30 hover:bg-white/[0.09];
+  }
+
+  .btn-ghost {
+    @apply btn text-slate-300 hover:bg-white/[0.06] hover:text-white;
+  }
+
+  .btn-sm {
+    @apply rounded-lg px-3.5 py-2 text-xs;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-200;
+  }
+
+  .badge-neon {
+    @apply badge border-cyan-300/30 bg-cyan-400/10 text-cyan-200;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-400;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-white/[0.12] bg-ink-900/70 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition focus:border-cyan-300/60 focus:ring-2 focus:ring-cyan-300/20;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-cyan-300 via-white to-neon-violet bg-clip-text text-transparent;
+  }
+
+  .link-underline {
+    @apply relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-cyan-300 after:transition-all hover:after:w-full;
+  }
+
+  .grid-lines {
+    background-image:
+      linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+}
+
+@layer utilities {
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .text-shadow-glow {
+    text-shadow: 0 0 28px rgba(34, 211, 238, 0.45);
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

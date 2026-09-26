@@ -1,0 +1,9 @@
+node_modules
+web
+.git
+.mythex
+*.log
+npm-debug.log*
+.env
+.env.*
+dist
