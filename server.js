@@ -47,6 +47,11 @@ app.use('/api', publicRoutes);
 app.use((_req, res) => res.status(404).json({ error: 'Not found' }));
 
 app.use((err, _req, res, _next) => {
+  if (err && (err.code === 'LIMIT_FILE_SIZE' || err.type === 'entity.too.large')) {
+    return res.status(413).json({
+      error: 'That file is bigger than 25MB. Please choose a smaller photo (up to 25MB) or paste an image link instead.',
+    });
+  }
   const status = err.status || 500;
   if (status >= 500) console.error('[error]', err);
   res.status(status).json({ error: err.message || 'Something went wrong' });

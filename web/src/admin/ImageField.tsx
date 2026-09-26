@@ -17,12 +17,18 @@ export default function ImageField({
   label?: string;
   hint?: string;
 }) {
+  const MAX_BYTES = 25 * 1024 * 1024;
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const input = useRef<HTMLInputElement | null>(null);
 
   async function pick(file?: File | null) {
     if (!file) return;
+    if (file.size > MAX_BYTES) {
+      setError('That file is bigger than 25MB. Please choose a smaller photo, or paste an image link.');
+      if (input.current) input.current.value = '';
+      return;
+    }
     setBusy(true);
     setError(null);
     try {

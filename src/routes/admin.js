@@ -16,14 +16,32 @@ import { uploadFile, storageEnabled, ALLOWED_TYPES } from '../storage.js';
 
 const router = Router();
 
+const MAX_UPLOAD_BYTES = 25 * 1024 * 1024; // 25MB
+
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 8 * 1024 * 1024 },
+  limits: { fileSize: MAX_UPLOAD_BYTES, files: 1 },
   fileFilter: (_req, file, cb) => {
     if (ALLOWED_TYPES.includes(file.mimetype)) return cb(null, true);
     cb(new Error('Only images (jpg, png, webp, gif, svg), PDF and archive (tar.gz, zip) files are allowed.'));
   },
 });
+
+/** Same as upload.single('file'), but turns multer errors into clear replies. */
+function uploadSingle(req, res, next) {
+  upload.single('file')(req, res, (err) => {
+    if (!err) return next();
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(413).json({
+        error: 'That file is bigger than 25MB. Please choose a smaller photo (up to 25MB) or paste an image link instead.',
+      });
+    }
+    if (err instanceof multer.MulterError) {
+      return res.status(400).json({ error: `Upload problem: ${err.message}` });
+    }
+    return res.status(err.status || 400).json({ error: err.message || 'Upload failed. Please try again.' });
+  });
+}
 
 /* ------------------------------- auth -------------------------------- */
 
@@ -93,7 +111,7 @@ router.put('/account', requireAdmin, async (req, res, next) => {
 
 /* ------------------------------ uploads ------------------------------ */
 
-router.post('/upload', requireAdmin, upload.single('file'), async (req, res, next) => {
+router.post('/upload', requireAdmin, uploadSingle, async (req, res, next) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'Please choose a file to upload.' });
     const folder = ['courses', 'jobs', 'services', 'ads', 'students', 'team'].includes(String(req.body?.folder))
@@ -315,7 +333,7 @@ function sanitize(def, body = {}) {
         ? raw
         : String(raw || '')
             .split('\n')
-            .map((v) => v.replace(/^[-•*\s]+/, '').trim());
+            .map((v) => v.replace(/^[-\u2022*\s]+/, '').trim());
       values[field] = JSON.stringify(list.filter(Boolean));
     } else if (def.ints.includes(field)) {
       const num = Number(raw);
